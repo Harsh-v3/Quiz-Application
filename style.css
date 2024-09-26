@@ -1,0 +1,129 @@
+:root {
+  --primary-color: #ccd5ae;
+  --secondary-color: #e0e5b6;
+  --tertiary-color: #faedce;
+  --tertiary-light-color: #fefae0;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  color: #555;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  box-sizing: border-box;
+  background: linear-gradient(
+    to top left,
+    rgb(204, 213, 174, 0.3),
+    rgb(254, 250, 224, 0.3)
+  );
+}
+
+h1 {
+  font-size: 5.4rem;
+  color: var(--primary-color);
+  margin-bottom: 5rem;
+  animation: MoveUp 0.8s ease-in-out;
+}
+
+h1 > span {
+  font-size: 2.4rem;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 4.2rem;
+  margin-bottom: 4rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 2.8rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* UTILITIES */
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.container > * {
+  width: 100%;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* BUTTONS */
+
+.btn--main {
+  font-size: 1.8rem;
+  padding: 1rem 0;
+  border: 0.1rem solid var(--secondary-color);
+  border-radius: 2px;
+  width: 20rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+  text-decoration: none;
+  background-color: #fff;
+  transition: all 0.2s ease-out;
+}
+
+.btn:hover {
+  cursor: pointer;
+  box-shadow: 0 0.4rem 1.4rem rgb(204, 213, 174, 0.5);
+  transform: translateY(-0.1rem);
+}
+
+.btn[disabled]:hover {
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ANIMATIONS */
+@keyframes MoveUp {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  80% {
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

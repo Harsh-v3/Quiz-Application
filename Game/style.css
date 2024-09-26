@@ -1,0 +1,49 @@
+.choice-container {
+  display: flex;
+  margin-bottom: 1rem;
+  border: 0.1rem solid var(--primary-color);
+  width: 100%;
+  background: #fff;
+  font-size: 1.8rem;
+  border-radius: 0.2rem;
+}
+
+.choice-container:hover {
+  cursor: pointer;
+  box-shadow: 0 0.4rem 1.4rem 0 rgb(204, 213, 174, 0.5);
+  transform: translateY(-0.1rem);
+  transition: all 0.3s;
+}
+
+.choice-prefix {
+  padding: 1.5rem 2.5rem;
+  background: var(--secondary-color);
+  color: #fff;
+}
+
+.choice-text {
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.correct {
+  background-color: lightgreen;
+  color: #fff;
+}
+
+.incorrect {
+  background-color: lightcoral;
+  color: #fff;
+}
+
+.meta-data {
+  display: flex;
+  justify-content: space-around;
+}
+
+.meta-data-prefix {
+  font-size: 1.8rem;
+  font-weight: 200;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
