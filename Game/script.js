@@ -3,7 +3,7 @@
 const questionEl = document.querySelector('#question');
 const questionCounterEl = document.querySelector('#questionCounter');
 const scoreCounterEl = document.querySelector('#scoreCounter');
-const progressBarLoading = document.querySelector('#progressBarLoading');
+const progressBar = document.querySelector('#progressBar');
 const choiceContainer = document.querySelector('.choice-box');
 
 // VARIABLES
@@ -14,11 +14,6 @@ let score;
 let questionCounter;
 let availableQuestion;
 let choices;
-
-// CONSTANTS
-
-const CORRECT_POINTS = 10;
-const MAX_QUESTIONS = 3;
 
 // QUESTIONS ARRAY
 
@@ -48,9 +43,40 @@ let questions = [
     choice4: "alert('Hello World');",
     answer: 4,
   },
+  {
+    question: 'Q. Which Language is used to structure the Web Page ?',
+    choice1: 'HTML',
+    choice2: 'CSS',
+    choice3: 'MongoDB',
+    choice4: 'PHP',
+    answer: 1,
+  },
 ];
 
+// CONSTANTS
+
+const CORRECT_POINTS = 10;
+const WRONG_POINTS = -5;
+const MAX_QUESTIONS = questions.length;
+
 // FUNCTIONS
+const progressBarView = (MQ = MAX_QUESTIONS) => {
+  for (i = 0; i < MQ; i++) {
+    const html = `
+    <div class="loading-color lg${i + 1} border-radius" style="left: ${
+      i * 25
+    }%"></div>
+    `;
+    progressBar.insertAdjacentHTML('beforeend', html);
+  }
+};
+progressBarView();
+
+const progressBarColorView = (answer) => {
+  document.querySelector(
+    `.lg${MAX_QUESTIONS - availableQuestion.length}`
+  ).style.backgroundColor = `${answer ? 'lightgreen' : 'lightcoral'}`;
+};
 
 const choiceView = (cQ) => {
   choiceContainer.innerHTML = '';
@@ -65,7 +91,6 @@ const choiceView = (cQ) => {
             <p class="choice-text" data-number="${num}"></p>
           </div>
       `;
-
       choiceContainer.insertAdjacentHTML('beforeend', html);
     }
   }
@@ -94,6 +119,10 @@ const gameMode = () => {
 
       if (ClassToApply === 'correct') {
         score += CORRECT_POINTS;
+        progressBarColorView(true);
+      } else {
+        score += WRONG_POINTS;
+        progressBarColorView(false);
       }
 
       selectedChoice.parentElement.classList.add(ClassToApply);
@@ -111,10 +140,6 @@ const getNewQuestion = function () {
   if (availableQuestion.length === 0 || questionCounter >= MAX_QUESTIONS) {
     return window.location.assign('../end.html');
   }
-
-  progressBarLoading.style.width = `${
-    (questionCounter / MAX_QUESTIONS) * 100
-  }%`;
   questionCounter++;
   questionCounterEl.innerText = `${questionCounter}/${MAX_QUESTIONS}`;
   let currQuestionNum = Math.floor(Math.random() * availableQuestion.length);

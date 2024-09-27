@@ -49,9 +49,14 @@
   text-transform: uppercase;
 }
 
-#progressBarLoading {
+#progressBar {
+  position: relative;
+}
+
+.loading-color {
+  position: absolute;
   height: 0.5rem;
-  background-color: var(--primary-color);
-  width: 0%;
-  transition: opacity 0.3s ease;
+  background-color: transparent;
+  width: 25%;
+  border-left: 0.1rem solid #f3f5ea;
 }
