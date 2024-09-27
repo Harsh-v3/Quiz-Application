@@ -1,9 +1,10 @@
 // ELEMENTS
 
 const questionEl = document.querySelector('#question');
-const choices = Array.from(document.querySelectorAll('.choice-text'));
 const questionCounterEl = document.querySelector('#questionCounter');
 const scoreCounterEl = document.querySelector('#scoreCounter');
+const progressBarLoading = document.querySelector('#progressBarLoading');
+const choiceContainer = document.querySelector('.choice-box');
 
 // VARIABLES
 
@@ -12,6 +13,7 @@ let acceptingAns = false;
 let score;
 let questionCounter;
 let availableQuestion;
+let choices;
 
 // CONSTANTS
 
@@ -51,24 +53,23 @@ let questions = [
 // FUNCTIONS
 
 const choiceView = (cQ) => {
-  document.querySelector('.choice-box').innerHTML = '';
+  choiceContainer.innerHTML = '';
   const choiceArr = Object.entries(cQ);
   for (const [key, value] of choiceArr) {
     if (key.includes('choice')) {
       const num = key.at(-1);
 
       let html = `
-      <div class="choice-container">
+      <div class="choice-container border-radius margin-bottom-small">
             <p class="choice-prefix">${num}</p>
             <p class="choice-text" data-number="${num}"></p>
           </div>
       `;
 
-      document
-        .querySelector('.choice-box')
-        .insertAdjacentHTML('beforeend', html);
+      choiceContainer.insertAdjacentHTML('beforeend', html);
     }
   }
+  return Array.from(document.querySelectorAll('.choice-text'));
 };
 
 const startGame = function () {
@@ -79,7 +80,7 @@ const startGame = function () {
 };
 
 const gameMode = () => {
-  document.querySelectorAll('.choice-text').forEach((choice) => {
+  choices.forEach((choice) => {
     choice.addEventListener('click', (e) => {
       console.log(acceptingAns);
       if (!acceptingAns) return;
@@ -111,14 +112,17 @@ const getNewQuestion = function () {
     return window.location.assign('../end.html');
   }
 
+  progressBarLoading.style.width = `${
+    (questionCounter / MAX_QUESTIONS) * 100
+  }%`;
   questionCounter++;
   questionCounterEl.innerText = `${questionCounter}/${MAX_QUESTIONS}`;
   let currQuestionNum = Math.floor(Math.random() * availableQuestion.length);
   currQuestion = availableQuestion[currQuestionNum];
   questionEl.innerText = currQuestion.question;
-  choiceView(currQuestion);
+  choices = choiceView(currQuestion);
 
-  document.querySelectorAll('.choice-text').forEach((choice) => {
+  choices.forEach((choice) => {
     const num = choice.dataset['number'];
     choice.innerText = currQuestion['choice' + num];
   });

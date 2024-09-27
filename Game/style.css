@@ -1,11 +1,9 @@
 .choice-container {
   display: flex;
-  margin-bottom: 1rem;
   border: 0.1rem solid var(--primary-color);
   width: 100%;
   background: #fff;
   font-size: 1.8rem;
-  border-radius: 0.2rem;
 }
 
 .choice-container:hover {
@@ -13,6 +11,10 @@
   box-shadow: 0 0.4rem 1.4rem 0 rgb(204, 213, 174, 0.5);
   transform: translateY(-0.1rem);
   transition: all 0.3s;
+}
+
+#question {
+  min-height: 15rem;
 }
 
 .choice-prefix {
@@ -45,5 +47,11 @@
   font-size: 1.8rem;
   font-weight: 200;
   text-transform: uppercase;
-  margin-bottom: 1rem;
+}
+
+#progressBarLoading {
+  height: 0.5rem;
+  background-color: var(--primary-color);
+  width: 0%;
+  transition: opacity 0.3s ease;
 }
