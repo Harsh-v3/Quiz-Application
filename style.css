@@ -101,10 +101,11 @@ justify-center {
   border: 0.1rem solid var(--secondary-color);
   width: 20rem;
   text-align: center;
-  color: var(--secondary-color);
+  color: #777;
   text-decoration: none;
   background-color: #fff;
   transition: all 0.2s ease-out;
+  outline: none;
 }
 
 .btn:hover {

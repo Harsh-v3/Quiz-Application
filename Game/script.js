@@ -61,7 +61,7 @@ const MAX_QUESTIONS = questions.length;
 
 // FUNCTIONS
 const progressBarView = (MQ = MAX_QUESTIONS) => {
-  for (i = 0; i < MQ; i++) {
+  for (let i = 0; i < MQ; i++) {
     const html = `
     <div class="loading-color lg${i + 1} border-radius" style="left: ${
       i * 25
@@ -138,7 +138,8 @@ const gameMode = () => {
 
 const getNewQuestion = function () {
   if (availableQuestion.length === 0 || questionCounter >= MAX_QUESTIONS) {
-    return window.location.assign('../end.html');
+    localStorage.setItem('Highscore', score);
+    return window.location.assign('End/end.html');
   }
   questionCounter++;
   questionCounterEl.innerText = `${questionCounter}/${MAX_QUESTIONS}`;
@@ -158,7 +159,4 @@ const getNewQuestion = function () {
   gameMode();
 };
 
-const incrementScore = (points) => {
-  score += points;
-};
 startGame();
