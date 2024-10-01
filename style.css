@@ -93,6 +93,10 @@ justify-center {
   margin-bottom: 1rem;
 }
 
+.margin-bottom-medium {
+  margin-bottom: 5rem;
+}
+
 /* BUTTONS */
 
 .btn--main {
@@ -106,6 +110,7 @@ justify-center {
   background-color: #fff;
   transition: all 0.2s ease-out;
   outline: none;
+  border-radius: 0.2rem;
 }
 
 .btn:hover {
