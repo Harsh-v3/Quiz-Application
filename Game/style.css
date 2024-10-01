@@ -57,6 +57,50 @@
   position: absolute;
   height: 0.5rem;
   background-color: transparent;
-  width: 25%;
+  width: 0;
   border-left: 0.1rem solid #f3f5ea;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    to top left,
+    rgb(204, 213, 174, 0.3),
+    rgb(254, 250, 224, 0.3)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+use {
+  fill: var(--primary-color);
+  scale: 2;
+}
+
+.svg-container {
+  padding: 1.5rem;
+}
+
+.svg-container svg {
+  width: 8rem;
+  height: 8rem;
+  animation: rotate 2.5s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+
+.hidden {
+  display: none;
 }

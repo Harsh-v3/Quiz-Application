@@ -1,3 +1,4 @@
+'use strict';
 // ELEMENTS
 
 const questionEl = document.querySelector('#question');
@@ -5,6 +6,8 @@ const questionCounterEl = document.querySelector('#questionCounter');
 const scoreCounterEl = document.querySelector('#scoreCounter');
 const progressBar = document.querySelector('#progressBar');
 const choiceContainer = document.querySelector('.choice-box');
+const overlay = document.querySelector('.overlay');
+const gamePage = document.querySelector('#GamePage');
 
 // VARIABLES
 
@@ -14,58 +17,66 @@ let score;
 let questionCounter;
 let availableQuestion;
 let choices;
-
-// QUESTIONS ARRAY
-
-let questions = [
-  {
-    question: 'Q. Inside which HTML element do we put the JavaScript??',
-    choice1: '<script>',
-    choice2: '<javascript>',
-    choice3: '<js>',
-    choice4: '<scripting>',
-    answer: 1,
-  },
-  {
-    question:
-      "Q. What is the correct syntax for referring to an external script called 'xxx.js'?",
-    choice1: `<script href='xxx.js'>`,
-    choice2: `<script name='xxx.js'>`,
-    choice3: `<script src='xxx.js'>`,
-    choice4: `<script file='xxx.js'>`,
-    answer: 3,
-  },
-  {
-    question: "Q. How do you write 'Hello World' in an alert box?",
-    choice1: "msgBox('Hello World');",
-    choice2: "alertBox('Hello World');",
-    choice3: "msg('Hello World');",
-    choice4: "alert('Hello World');",
-    answer: 4,
-  },
-  {
-    question: 'Q. Which Language is used to structure the Web Page ?',
-    choice1: 'HTML',
-    choice2: 'CSS',
-    choice3: 'MongoDB',
-    choice4: 'PHP',
-    answer: 1,
-  },
-];
+let answerChoice;
 
 // CONSTANTS
 
 const CORRECT_POINTS = 10;
 const WRONG_POINTS = -5;
-const MAX_QUESTIONS = questions.length;
+const MAX_QUESTIONS = 10;
+const API = `https://opentdb.com/api.php?amount=${MAX_QUESTIONS}&category=18&difficulty=easy&type=multiple`;
+
+// QUESTIONS ARRAY
+
+let questions = [];
+
+const timeout = function (s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error('Request Time Out !'));
+    }, s * 1000);
+  });
+};
+
+const load = async function () {
+  try {
+    const res = await Promise.race([fetch(API), timeout(5)]);
+    const data = await res.json();
+    if (!res.ok) throw new Error(`${res.status} (${data.message})`);
+
+    console.log(data);
+    const formatedData = data.results.map((currEl) => {
+      const formattedQuestion = {};
+
+      formattedQuestion.question = `${'Q. '.concat(currEl.question)}`;
+      const choices = [...currEl.incorrect_answers];
+      formattedQuestion.answer = Math.floor(Math.random() * 3 + 1);
+      choices.splice(formattedQuestion.answer - 1, 0, currEl.correct_answer);
+
+      choices.forEach((choice, i) => {
+        formattedQuestion[`choice${i + 1}`] = choice;
+      });
+
+      return formattedQuestion;
+    });
+
+    questions.push(...formatedData);
+    console.log(questions);
+
+    startGame();
+  } catch (err) {
+    console.error(err);
+  }
+};
+load();
 
 // FUNCTIONS
 const progressBarView = (MQ = MAX_QUESTIONS) => {
   for (let i = 0; i < MQ; i++) {
     const html = `
     <div class="loading-color lg${i + 1} border-radius" style="left: ${
-      i * 25
-    }%"></div>
+      i * MQ
+    }% ; width : ${MQ}%"></div>
     `;
     progressBar.insertAdjacentHTML('beforeend', html);
   }
@@ -84,11 +95,13 @@ const choiceView = (cQ) => {
   for (const [key, value] of choiceArr) {
     if (key.includes('choice')) {
       const num = key.at(-1);
-
+      console.log(currQuestion.answer == num);
       let html = `
       <div class="choice-container border-radius margin-bottom-small">
             <p class="choice-prefix">${num}</p>
-            <p class="choice-text" data-number="${num}"></p>
+            <p class="choice-text ${
+              currQuestion.answer == num ? 'ans' : ''
+            }" data-number="${num}"></p>
           </div>
       `;
       choiceContainer.insertAdjacentHTML('beforeend', html);
@@ -101,13 +114,14 @@ const startGame = function () {
   score = 0;
   questionCounter = 0;
   availableQuestion = [...questions];
+  overlay.classList.add('hidden');
+  gamePage.classList.remove('hidden');
   getNewQuestion();
 };
 
 const gameMode = () => {
   choices.forEach((choice) => {
     choice.addEventListener('click', (e) => {
-      console.log(acceptingAns);
       if (!acceptingAns) return;
 
       acceptingAns = false;
@@ -122,6 +136,7 @@ const gameMode = () => {
         progressBarColorView(true);
       } else {
         score += WRONG_POINTS;
+        answerChoice.style.backgroundColor = '#cff99c99';
         progressBarColorView(false);
       }
 
@@ -131,7 +146,7 @@ const gameMode = () => {
         selectedChoice.parentElement.classList.remove(ClassToApply);
         scoreCounterEl.innerText = score;
         getNewQuestion();
-      }, 1000);
+      }, 2000);
     });
   });
 };
@@ -153,10 +168,9 @@ const getNewQuestion = function () {
     choice.innerText = currQuestion['choice' + num];
   });
 
+  answerChoice = document.querySelector('.ans');
   availableQuestion.splice(currQuestionNum, 1);
   acceptingAns = true;
 
   gameMode();
 };
-
-startGame();

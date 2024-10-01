@@ -1,4 +1,6 @@
-let Highscores = JSON.parse(localStorage.getItem('usersData')) || [];
+let Highscores = JSON.parse(localStorage.getItem('usersData')) || [
+  { userName: '---', userScore: '---' },
+];
 const HighscoreTable = document.querySelector('.Highscore-table');
 console.log(HighscoreTable);
 console.log(Highscores);

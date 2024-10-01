@@ -10,7 +10,14 @@
   </head>
   <body>
     <div class="container">
-      <div class="flex-column justify-center" id="GamePage">
+      <div class="overlay">
+        <div class="svg-container">
+          <svg>
+            <use href="../icons.svg#icon-loader" class="icon"></use>
+          </svg>
+        </div>
+      </div>
+      <div class="flex-column justify-center hidden" id="GamePage">
         <div class="meta-data">
           <div class="meta-data-question">
             <p class="meta-data-prefix margin-bottom-small">Question</p>
@@ -38,5 +45,9 @@
       </div>
     </div>
   </body>
-  <script src="script.js"></script>
+  <script
+    src="https://kit.fontawesome.com/4154d38e3f.js"
+    crossorigin="anonymous"
+  ></script>
+  <script defer src="script.js"></script>
 </html>
