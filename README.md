@@ -52,6 +52,6 @@ Contributions are welcome! If you'd like to contribute, please fork the reposito
 
 - Inspired by Jonas Quick's project "Quick Quiz App."
 
-```
+`
 Feel free to adjust any part of this to better fit your style or add more details as needed. If you have anything else to include or modify, just let me know!
-```
+`
